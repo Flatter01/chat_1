@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "543318453097",
+    "project_id": "chatapptute-c6c50",
+    "storage_bucket": "chatapptute-c6c50.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543318453097:android:daf07ff4d04053a861ebf8",
+        "android_client_info": {
+          "package_name": "com.abdullox.chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWKQE3covpD6DjPhxB2Pb3xav6igvN_TI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
