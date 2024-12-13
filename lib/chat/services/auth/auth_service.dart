@@ -5,6 +5,10 @@ class AuthService {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  User? getCurrentUser(){
+    return auth.currentUser;
+  }
+
   Future<UserCredential> signInWithEmailPassword(
       String email, String password) async {
     try {
@@ -20,9 +24,9 @@ class AuthService {
       );
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      print("FirebaseAuthException111: ${e.code} - ${e.message}");
-
       throw Exception(e.code);
+    }catch(e){
+      throw Exception(e);
     }
   }
 

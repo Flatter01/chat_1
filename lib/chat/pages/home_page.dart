@@ -13,11 +13,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Check....");
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
-        backgroundColor: Colors.grey.shade700,
+        backgroundColor: Colors.black,
       ),
       drawer: MyDrawer(),
       body: buildUserList(),
@@ -25,19 +24,13 @@ class HomePage extends StatelessWidget {
   }
 
   Widget buildUserList() {
-        debugPrint("Check..../");
-
     return StreamBuilder(
       stream: chatService.getUsersStream(),
       builder: (context, snapshot) {
-                debugPrint("Check....//");
-
         if (snapshot.hasError) return const Text("Error");
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Text("Loading...");
         }
-                debugPrint("Check....///");
-
         return ListView(
           children: snapshot.data!
               .map<Widget>((userData) => buildUserListItem(userData, context))
@@ -46,20 +39,28 @@ class HomePage extends StatelessWidget {
       },
     );
   }
-}
 
-Widget buildUserListItem(Map<String, dynamic> userData, BuildContext context) {
-  return UserTile(
-    text: userData["email"],
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChatPage(
-            receiverEmail: userData["email"],
-          ),
-        ),
+  Widget buildUserListItem(
+    Map<String, dynamic> userData,
+    BuildContext context,
+  ) {
+    if (userData["email"] != authService.getCurrentUser()) {
+      return UserTile(
+        text: userData["email"],
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ChatPage(
+                receiverEmail: userData["email"],
+                receivaerID: userData["uid"],
+              ),
+            ),
+          );
+        },
       );
-    },
-  );
+    } else {
+      return Container();
+    }
+  }
 }

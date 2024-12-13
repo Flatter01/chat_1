@@ -19,9 +19,7 @@ class LoginPage extends StatelessWidget {
         emailController.text,
         passwordController.text,
       );
-      debugPrint("Check..");
     } catch (e) {
-      debugPrint("Check...");
       if (!context.mounted) return;
       showDialog(
         context: context,
