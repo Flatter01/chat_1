@@ -1,8 +1,7 @@
 import 'package:chat/chat/models/message.dart';
+import 'package:chat/chat/services/auth/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 class ChatService {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -50,6 +49,28 @@ class ChatService {
         .doc(chatRoomID)
         .collection("massages")
         .orderBy("timestamp", descending: false)
+        .snapshots();
+  }
+
+  Future<void> sendMessageToGroup(String groupID, String message) async {
+    final currentUserID = AuthService().getCurrentUser()!.uid;
+    await firestore
+        .collection('groups')
+        .doc(groupID)
+        .collection('messages')
+        .add({
+      'senderID': currentUserID,
+      'message': message,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Stream<QuerySnapshot> getGroupMessages(String groupID) {
+    return firestore
+        .collection('groups')
+        .doc(groupID)
+        .collection('messages')
+        .orderBy('timestamp', descending: false)
         .snapshots();
   }
 }

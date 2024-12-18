@@ -1,3 +1,4 @@
+import 'package:chat/chat/group/groups/group_list_page.dart';
 import 'package:chat/chat/services/auth/login_or_register.dart';
 import 'package:chat/chat/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +14,8 @@ class AuthGate extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage();
+            // return HomePage();
+            return GroupListPage();
           } else {
             return const LoginOrRegister();
           }

@@ -104,22 +104,3 @@ class ChatPage extends StatelessWidget {
     );
   }
 }
-
-
-void searchProducts(String input) async {
-  final firestore = FirebaseFirestore.instance;
-
-  try {
-    QuerySnapshot querySnapshot = await firestore
-        .collection('users')
-        .where('email', isEqualTo: input)
-        .get();
-
-    // Process the search results
-    for (var doc in querySnapshot.docs) {
-      print(doc.data());
-    }
-  } catch (e) {
-    print('Error fetching products: $e');
-  }
-}
