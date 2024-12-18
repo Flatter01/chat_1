@@ -58,8 +58,15 @@ class _GroupChatPageState extends State<GroupChatPage> {
         List<dynamic> admins = groupDoc['admins'] ?? [];
 
         setState(() {
-          isMember = members.contains(currentUserEmail);
+          isMember = members
+              .contains(currentUserEmail); // Проверьте, чтобы email совпадал
           isAdmin = admins.contains(currentUserEmail);
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isMember = false; // Группа не найдена
+          isAdmin = false;
           isLoading = false;
         });
       }
@@ -262,28 +269,31 @@ class _GroupChatPageState extends State<GroupChatPage> {
   }
 
   Widget buildUserInput() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: MyTextField(
-              hintText: "Введите сообщение...",
-              obscureText: false,
-              controller: messageController,
+    return isMember
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: MyTextField(
+                    hintText: "Введите сообщение...",
+                    controller: messageController,
+                    obscureText: false,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: sendMessage,
+                ),
+              ],
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 8.0),
-            decoration: const BoxDecoration(
-                color: Colors.green, shape: BoxShape.circle),
-            child: IconButton(
-              onPressed: sendMessage,
-              icon: Icon(Icons.send, color: Colors.white),
+          )
+        : Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Вы не являетесь участником этой группы.",
+              style: TextStyle(color: Colors.red),
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }
